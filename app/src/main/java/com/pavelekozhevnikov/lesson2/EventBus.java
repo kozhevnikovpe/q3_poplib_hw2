@@ -3,6 +3,7 @@ package com.pavelekozhevnikov.lesson2;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.subjects.PublishSubject;
 
 public class EventBus {
@@ -16,7 +17,7 @@ public class EventBus {
     private EventBus(){
         eventBus = PublishSubject.create();
         //собственное событие
-        Observable<Long> observable = Observable.interval(1, TimeUnit.SECONDS);
+        Observable<Long> observable = Observable.interval(3, TimeUnit.SECONDS);
         observable.subscribe(eventBus);
     }
 
@@ -24,7 +25,11 @@ public class EventBus {
         eventBus.onNext(o);
     }
 
-    public Observable<Object> toObservable() {
+    public PublishSubject<Object> toPublishSubject() {
+        return eventBus;
+    }
+
+    public Observer<Object> toObserver() {
         return eventBus;
     }
 }
